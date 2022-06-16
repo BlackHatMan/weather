@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import Card from './component/Card';
 import Header from './component/Header';
 import { useAppDispatch } from './store/hooks';
 import { fetchOpenWeatherAPI } from './store/weatherSlice';
@@ -15,6 +16,7 @@ function App() {
   return (
     <div className="App">
       <Header />
+      <Card />
     </div>
   );
 }
