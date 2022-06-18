@@ -12,13 +12,11 @@ code {
 
 .App {
   text-align: center;
-  font-size: calc(10px + 2vmin);
-}
-
-header {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 7fr 3fr;
   background-image: url("../public/cloud.jpeg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  height: 70vh;
 }

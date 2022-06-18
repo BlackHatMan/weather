@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { path } from '../utilities/path';
 
-const Image = ({ description }: { description: string }) => {
+const WeatherImage: React.FC<weatherImage> = ({ description, width = 110, height = 90 }) => {
   let source = '';
   if (description === 'Clouds') source = path.cloud;
   else if (description === 'Rain') source = path.rain;
@@ -12,12 +12,19 @@ const Image = ({ description }: { description: string }) => {
     <Box
       component="img"
       sx={{
-        height: 100,
-        width: 150,
+        height,
+        width,
+        margin: '1rem 0.2rem',
       }}
       alt="image description"
       src={source}
     />
   );
 };
-export default Image;
+export default WeatherImage;
+
+interface weatherImage {
+  description: string;
+  width?: number;
+  height?: number;
+}

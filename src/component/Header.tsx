@@ -1,15 +1,17 @@
 import { Container } from '@mui/material';
 import Clock from './Clock';
-import LocationComponent from './LocationComponent';
+import Location from './Location';
 
 const Header = () => {
   return (
-    <header>
-      <Container sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Clock />
-        <LocationComponent />
-      </Container>
-    </header>
+    <Container
+      maxWidth="lg"
+      component="header"
+      sx={{ display: 'flex', justifyContent: 'space-between' }}
+    >
+      <Clock />
+      <Location />
+    </Container>
   );
 };
 

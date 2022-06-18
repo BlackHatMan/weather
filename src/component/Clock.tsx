@@ -22,12 +22,10 @@ const Clock = () => {
 
   return (
     <div>
-      <Typography color="white" fontSize={68} lineHeight={1}>
+      <Typography fontSize={68} lineHeight={1}>
         {hours}:{minutes}
       </Typography>
-      <Typography color="white" fontSize={28}>
-        {fullDate}
-      </Typography>
+      <Typography fontSize={24}>{fullDate}</Typography>
     </div>
   );
 };

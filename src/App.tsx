@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import Card from './component/Card';
+import Forecast from './component/weather/Forecast';
 import Header from './component/Header';
 import { useAppDispatch } from './store/hooks';
-import { fetchOpenWeatherAPI } from './store/weatherSlice';
+import { fetchOpenWeatherAPI } from './store/thunks';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -16,7 +16,7 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <Card />
+      <Forecast />
     </div>
   );
 }

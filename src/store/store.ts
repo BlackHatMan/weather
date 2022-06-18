@@ -1,5 +1,5 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import weatherReducer from './weatherSlice';
+import weatherReducer from './slice';
 
 export const store = configureStore({
   reducer: {
