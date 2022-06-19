@@ -3,6 +3,7 @@ import Forecast from './component/weather/Forecast';
 import Header from './component/Header';
 import { useAppDispatch } from './store/hooks';
 import { fetchOpenWeatherAPI } from './store/thunks';
+import SnackbarMessage from './component/SnackBar';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -17,6 +18,7 @@ function App() {
     <div className="App">
       <Header />
       <Forecast />
+      <SnackbarMessage />
     </div>
   );
 }
