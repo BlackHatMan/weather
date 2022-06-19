@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { parseOpenWeatherData } from '../utilities/parseOpenWetherAPI';
+import { weatherData, coordinates, OpenWeatherAPI, positionstackAPIResp } from './types';
 
 export const fetchOpenWeatherAPI = createAsyncThunk<
   weatherData | undefined,
@@ -7,9 +8,9 @@ export const fetchOpenWeatherAPI = createAsyncThunk<
   {
     rejectValue: string;
   }
->('weather/fetchData', async ({ latitude, longitude }, { rejectWithValue }) => {
+>('weather/fetchOpenWeatherAPI', async ({ latitude, longitude }, { rejectWithValue }) => {
   const response = await fetch(
-    `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_API_KEY}&units=metric`
+    `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_API_KEY_OPENWEATHERMAP}&units=metric`
   );
   if (!response.ok) {
     const data = await response.json();
@@ -20,38 +21,31 @@ export const fetchOpenWeatherAPI = createAsyncThunk<
   return parseOpenWeatherData(data);
 });
 
-export interface OpenWeatherAPI {
-  timezone: string;
-  daily: daily[];
-}
-interface daily {
-  dt: number;
-  temp: {
-    day: number;
-  };
-  weather: weatherOpenWeatherAPI[];
-}
-type weatherOpenWeatherAPI = {
-  description: string;
-  main: string;
-  icon: string;
-};
+export const fetchCityOpenWeatherAPI = createAsyncThunk<
+  weatherData | undefined,
+  string,
+  {
+    rejectValue: string;
+  }
+>('weather/fetchCityOpenWeatherAPI', async (city, { rejectWithValue }) => {
+  const responseCoordinate = await fetch(
+    `http://api.positionstack.com/v1/forward?access_key=${process.env.REACT_APP_API_KEY_POSITIONSTACK}&query=${city}&limit=1`
+  );
+  if (!responseCoordinate.ok) {
+    const data = await responseCoordinate.json();
+    return rejectWithValue(`${data?.statusCode}/${data.message}`);
+  }
 
-export interface weatherData {
-  location: location;
-  weather: weather[];
-}
-interface location {
-  city: string;
-  country: string;
-}
-export interface weather {
-  date: string;
-  description: string;
-  temp: string;
-}
+  const coordinatesData = await responseCoordinate.json();
+  if (coordinatesData.data.length < 1) return rejectWithValue('incorrect city name');
 
-export interface coordinates {
-  latitude: string;
-  longitude: string;
-}
+  const { country, latitude, longitude, locality } = coordinatesData
+    .data[0] as positionstackAPIResp;
+
+  const responseWeather = await fetch(
+    `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_API_KEY_OPENWEATHERMAP}&units=metric`
+  );
+
+  const data: OpenWeatherAPI = await responseWeather.json();
+  return parseOpenWeatherData(data, country, locality);
+});

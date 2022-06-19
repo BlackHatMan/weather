@@ -1,5 +1,6 @@
 import { styled, TextField, Typography } from '@mui/material';
-import { useAppSelector } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { fetchCityOpenWeatherAPI } from '../store/thunks';
 
 const StyledTextField = styled(TextField)({
   '& .MuiInput-input': {
@@ -21,9 +22,18 @@ const StyledTextField = styled(TextField)({
 
 const Location = () => {
   const { city, country } = useAppSelector((store) => store.weather.location);
+  const dispatch = useAppDispatch();
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter' && city !== event.currentTarget.value && event.currentTarget.value) {
+      dispatch(fetchCityOpenWeatherAPI(event.currentTarget.value));
+    }
+  };
   return (
     <div>
       <StyledTextField
+        inputProps={{
+          onKeyDown: handleKeyPress,
+        }}
         key={city}
         variant="standard"
         defaultValue={city}

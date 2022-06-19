@@ -13,7 +13,7 @@ const WeatherImage: React.FC<weatherImage> = ({ description, width = 110, height
       component="img"
       sx={{
         height,
-        width,
+        maxWidth: width,
         margin: '1rem 0.2rem',
       }}
       alt="image description"

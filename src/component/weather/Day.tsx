@@ -1,8 +1,8 @@
 import { Box, styled, Typography } from '@mui/material';
-import { weather } from '../../store/thunks';
+import { weather } from '../../store/types';
 import WeatherImage from '../WeatherImage';
 
-export const StyledTypography = styled(Typography)({
+export const DayOfWeek = styled(Typography)({
   backgroundColor: 'rgba(21, 21, 22, 0.4)',
   textTransform: 'uppercase',
   margin: '0.7rem ',
@@ -13,11 +13,9 @@ export const StyledTypography = styled(Typography)({
 const Day: React.FC<weather> = ({ date, description, temp }) => {
   return (
     <Box>
-      <StyledTypography>{date}</StyledTypography>
+      <DayOfWeek>{date}</DayOfWeek>
       <WeatherImage description={description} />
-      <Typography className="temperature" fontSize="1.8rem">
-        {temp}
-      </Typography>
+      <Typography fontSize="1.8rem">{temp}</Typography>
     </Box>
   );
 };
