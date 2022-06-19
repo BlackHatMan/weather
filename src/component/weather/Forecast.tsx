@@ -15,9 +15,15 @@ const Forecast = () => {
     >
       <Container
         maxWidth="lg"
+        disableGutters
         sx={{
           display: 'flex',
-          justifyContent: 'space-between',
+          justifyContent: {
+            lg: 'space-between',
+            md: 'center',
+            sm: 'center',
+            xs: 'center',
+          },
           flexWrap: {
             md: 'nowrap',
             sm: 'nowrap',

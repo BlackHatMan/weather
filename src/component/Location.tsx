@@ -1,37 +1,22 @@
 import { styled, TextField, Typography } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { fetchCityOpenWeatherAPI } from '../store/thunks';
-
-const StyledTextField = styled(TextField)({
-  '& .MuiInput-input': {
-    textAlign: 'end',
-    fontSize: 32,
-    maxWidth: '10rem',
-    color: 'white',
-  },
-  '& .MuiInput-root::before': {
-    border: 'none',
-  },
-  '&& .MuiInput-underline:hover:before': {
-    border: 'none',
-  },
-  '.MuiInput-underline:after': {
-    borderBottom: '1px solid white',
-  },
-});
+import SelectAPI from './SelectApi';
 
 const Location = () => {
   const { city, country } = useAppSelector((store) => store.weather.location);
   const dispatch = useAppDispatch();
-  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter' && city !== event.currentTarget.value && event.currentTarget.value) {
-      dispatch(fetchCityOpenWeatherAPI(event.currentTarget.value));
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && city !== e.currentTarget.value && e.currentTarget.value) {
+      dispatch(fetchCityOpenWeatherAPI(e.currentTarget.value));
     }
   };
+
   return (
     <div>
       <StyledTextField
-        inputProps={{
+        InputProps={{
           onKeyDown: handleKeyPress,
         }}
         key={city}
@@ -43,8 +28,18 @@ const Location = () => {
       <Typography textAlign="end" fontSize={18}>
         {country}
       </Typography>
+
+      <SelectAPI />
     </div>
   );
 };
 
 export default Location;
+
+const StyledTextField = styled(TextField)({
+  '& .MuiInput-input': {
+    textAlign: 'end',
+    fontSize: 32,
+    maxWidth: '10rem',
+  },
+});
