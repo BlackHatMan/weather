@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { path } from '../utilities/path';
 
-const WeatherImage: React.FC<weatherImage> = ({ description, width = 110, height = 90 }) => {
+const WeatherImage: React.FC<weatherImage> = ({ description, height = 85 }) => {
   let source = '';
   if (description === 'Clouds') source = path.cloud;
   else if (description === 'Rain') source = path.rain;
@@ -12,9 +12,17 @@ const WeatherImage: React.FC<weatherImage> = ({ description, width = 110, height
     <Box
       component="img"
       sx={{
-        height,
-        maxWidth: width,
-        margin: '1rem 0.2rem',
+        height: {
+          xl: height,
+          lg: height,
+          md: height,
+          sm: height,
+          xs: height / 2,
+        },
+        margin: {
+          xl: '1rem 0.2rem',
+          md: 0,
+        },
       }}
       alt="image description"
       src={source}

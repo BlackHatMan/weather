@@ -1,16 +1,17 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useMediaQuery } from '@mui/material';
 import { useAppSelector } from '../../store/hooks';
 import WeatherImage from '../WeatherImage';
 import { DayOfWeek } from './Day';
 
 const TodayCard = () => {
   const { weather } = useAppSelector((state) => state.weather);
+  const matches = useMediaQuery('(max-width:1200px)');
   return (
-    <Box display="flex" m="2rem 4rem 0 0">
-      <WeatherImage description={weather[0].description} width={240} height={200} />
+    <Box display="flex" m={matches ? '1rem' : '2rem'} justifyContent="center">
+      <WeatherImage description={weather[0].description} height={matches ? 140 : 180} />
       <div>
         <DayOfWeek>Today</DayOfWeek>
-        <Typography fontSize={64}>{weather[0].temp}</Typography>
+        <Typography fontSize={matches ? 48 : 64}>{weather[0].temp}</Typography>
       </div>
     </Box>
   );

@@ -13,9 +13,29 @@ const Forecast = () => {
         opacity: 0.9,
       }}
     >
-      <Container maxWidth="lg" sx={{ display: 'flex' }}>
+      <Container
+        maxWidth="lg"
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          flexWrap: {
+            md: 'nowrap',
+            sm: 'nowrap',
+            xs: 'wrap',
+          },
+        }}
+      >
         <TodayCard />
-        <Box display="flex">
+        <Box
+          display="flex"
+          sx={{
+            flexWrap: {
+              md: 'wrap',
+              sm: 'wrap',
+              xs: 'wrap',
+            },
+          }}
+        >
           {weather.map((day, i) => {
             return (
               <Day
