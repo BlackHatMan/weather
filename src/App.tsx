@@ -24,7 +24,11 @@ function App() {
     <Box
       className="App"
       sx={{
-        backgroundImage: `url(${getPathBackground(weather)})`,
+        textAlign: 'center',
+        height: ' 100vh',
+        display: 'grid',
+        gridTemplateRows: '7fr 3fr',
+        background: `center/cover no-repeat url(${getPathBackground(weather)})`,
       }}
     >
       <Header />

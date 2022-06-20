@@ -9,13 +9,3 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
-
-.App {
-  text-align: center;
-  height: 100vh;
-  display: grid;
-  grid-template-rows: 7fr 3fr;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
