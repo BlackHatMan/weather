@@ -1,6 +1,6 @@
 import { Box, styled, Typography, useMediaQuery } from '@mui/material';
 import { weather } from '../../store/types';
-import WeatherImage from '../WeatherImage';
+import WeatherImage from './WeatherImage';
 
 export const DayOfWeek = styled(Typography)(({ theme }) => ({
   backgroundColor: 'rgba(21, 21, 22, 0.4)',

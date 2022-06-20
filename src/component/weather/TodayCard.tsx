@@ -1,6 +1,6 @@
 import { Box, Typography, useMediaQuery } from '@mui/material';
 import { useAppSelector } from '../../store/store';
-import WeatherImage from '../WeatherImage';
+import WeatherImage from './WeatherImage';
 import { DayOfWeek } from './Day';
 
 const TodayCard = () => {

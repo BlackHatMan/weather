@@ -1,10 +1,10 @@
 import { useAppSelector } from '../../store/store';
-import { Box, Container } from '@mui/material';
+import { Box, Container, Grow } from '@mui/material';
 import TodayCard from './TodayCard';
 import Day from './Day';
 
 const Forecast = () => {
-  const { weather } = useAppSelector((state) => state.weather);
+  const { weather, pending } = useAppSelector((state) => state.weather);
 
   return (
     <Box
@@ -32,27 +32,29 @@ const Forecast = () => {
         }}
       >
         <TodayCard />
-        <Box
-          display="flex"
-          sx={{
-            flexWrap: {
-              md: 'wrap',
-              sm: 'wrap',
-              xs: 'wrap',
-            },
-          }}
-        >
-          {weather.slice(1).map((day, i) => {
-            return (
-              <Day
-                key={`${day.date}${i}`}
-                date={day.date}
-                description={day.description}
-                temp={day.temp}
-              />
-            );
-          })}
-        </Box>
+        <Grow in={!pending}>
+          <Box
+            display="flex"
+            sx={{
+              flexWrap: {
+                md: 'wrap',
+                sm: 'wrap',
+                xs: 'wrap',
+              },
+            }}
+          >
+            {weather.slice(1).map((day, i) => {
+              return (
+                <Day
+                  key={`${day.date}${i}`}
+                  date={day.date}
+                  description={day.description}
+                  temp={day.temp}
+                />
+              );
+            })}
+          </Box>
+        </Grow>
       </Container>
     </Box>
   );

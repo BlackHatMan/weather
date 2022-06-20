@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { path } from '../utilities/path';
+import { path } from '../../utilities/path';
 
 const WeatherImage: React.FC<weatherImage> = ({ description, height = 85 }) => {
   let source = '';

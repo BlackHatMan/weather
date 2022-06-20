@@ -72,6 +72,7 @@ export interface stormGlassHoursData {
 export interface state extends weatherData {
   error: string;
   api: API;
+  pending: boolean;
 }
 
 export type API = 'openWeather' | 'stormGlass';
