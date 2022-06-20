@@ -2,11 +2,11 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { parseOpenWeatherData } from '../utilities/parseOpenWetherAPI';
 import { parseStormGlassAPI } from '../utilities/parseStormGlassAPI';
 import { getOpenWeatherAPI, getCoordinatesAPI, getStormGlassAPI } from './api';
-import { weatherData, coordinates } from './types';
+import { weatherData } from './types';
 
 export const fetchOpenWeather = createAsyncThunk<
   weatherData | undefined,
-  coordinates,
+  GeolocationCoordinates,
   {
     rejectValue: string;
   }

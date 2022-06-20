@@ -15,10 +15,13 @@ const SelectAPI: React.FC<{ handlerAPI: (api: API) => void }> = ({ handlerAPI })
         onChange={handleChange}
         fullWidth
         variant="standard"
-        label="select API"
+        label="select api"
+        sx={{
+          margin: '2rem 0 0 1rem',
+        }}
       >
-        <MenuItem value="openWeather">openWeatherAPI</MenuItem>
-        <MenuItem value="stormGlass">stormGlassAPI</MenuItem>
+        <MenuItem value="openWeather">openWeather</MenuItem>
+        <MenuItem value="stormGlass">stormGlass</MenuItem>
       </TextField>
     </div>
   );

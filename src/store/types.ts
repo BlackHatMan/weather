@@ -19,25 +19,22 @@ export interface weatherData {
   location: location;
   weather: weather[];
 }
+
 export interface location {
   city: string;
   country: string;
 }
+
 export interface weather {
   date: string;
   description: string;
   temp: string;
 }
 
-export interface coordinates {
-  latitude: string;
-  longitude: string;
-}
-
 export interface positionstackAPIResp {
   country: string;
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
   locality: string;
 }
 

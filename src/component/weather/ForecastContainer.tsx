@@ -3,14 +3,14 @@ import { Box, Container, Grow } from '@mui/material';
 import TodayCard from './TodayCard';
 import Day from './Day';
 
-const Forecast = () => {
+const ForecastContainer = () => {
   const { weather, pending } = useAppSelector((state) => state.weather);
 
   return (
     <Box
       sx={{
         backgroundColor: 'rgb(52, 48, 95)',
-        opacity: 0.9,
+        opacity: 0.85,
       }}
     >
       <Container
@@ -60,4 +60,4 @@ const Forecast = () => {
   );
 };
 
-export default Forecast;
+export default ForecastContainer;

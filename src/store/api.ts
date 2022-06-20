@@ -2,7 +2,7 @@ import { positionstackAPIResp, OpenWeatherAPI, stormGlassAPIResponse } from './t
 
 export const getCoordinatesAPI = async (city: string) => {
   const responseCoordinate = await fetch(
-    `http://api.positionstack.com/v1/forward?access_key=${process.env.REACT_APP_API_KEY_POSITIONSTACK}&query=${city}&limit=1`
+    `${process.env.REACT_APP_POSITIONSTACK_URL}?access_key=${process.env.REACT_APP_API_KEY_POSITIONSTACK}&query=${city}&limit=1`
   );
   const coordinatesData = await responseCoordinate.json();
   if (!responseCoordinate.ok) {
@@ -14,9 +14,9 @@ export const getCoordinatesAPI = async (city: string) => {
   return data;
 };
 
-export const getOpenWeatherAPI = async (latitude: string, longitude: string) => {
+export const getOpenWeatherAPI = async (latitude: number, longitude: number) => {
   const response = await fetch(
-    `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_API_KEY_OPENWEATHERMAP}&units=metric`
+    `${process.env.REACT_APP_OPENWEATHER_URL}?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_API_KEY_OPENWEATHERMAP}&units=metric`
   );
   if (!response.ok) {
     const data = await response.json();
@@ -26,9 +26,9 @@ export const getOpenWeatherAPI = async (latitude: string, longitude: string) => 
   const data: OpenWeatherAPI = await response.json();
   return data;
 };
-export const getStormGlassAPI = async (latitude: string, longitude: string) => {
+export const getStormGlassAPI = async (latitude: number, longitude: number) => {
   const response = await fetch(
-    `https://api.stormglass.io/v2/weather/point?lat=${latitude}&lng=${longitude}&params=airTemperature,humidity,windSpeed,precipitation,cloudCover`,
+    `${process.env.REACT_APP_STORMGLASS_URL}?lat=${latitude}&lng=${longitude}&params=airTemperature,humidity,windSpeed,precipitation,cloudCover`,
     {
       headers: {
         Authorization: `${process.env.REACT_APP_API_KEY_STORMGLASS}`,
