@@ -31,6 +31,7 @@ export const fetchCityOpenWeather = createAsyncThunk<
     const { country, latitude, longitude, locality } = await getCoordinatesAPI(city);
 
     const data = await getOpenWeatherAPI(latitude, longitude);
+    localStorage.setItem('city', city);
     return parseOpenWeatherData(data, country, locality);
   } catch (error) {
     const e = error as Error;
@@ -48,7 +49,7 @@ export const fetchStormGlass = createAsyncThunk<
   try {
     const { country, latitude, longitude, locality } = await getCoordinatesAPI(city);
     const data = await getStormGlassAPI(latitude, longitude);
-
+    localStorage.setItem('city', city);
     return parseStormGlassAPI(data, country, locality);
   } catch (error) {
     const e = error as Error;

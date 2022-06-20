@@ -15,7 +15,6 @@ code {
   height: 100vh;
   display: grid;
   grid-template-rows: 7fr 3fr;
-  background-image: url("../public/cloud.jpeg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
