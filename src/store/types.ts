@@ -40,3 +40,38 @@ export interface positionstackAPIResp {
   longitude: string;
   locality: string;
 }
+
+export interface stormGlassAPIResponse {
+  hours: stormGlassHoursData[];
+}
+
+export interface stormGlassHoursData {
+  airTemperature: {
+    noaa: number;
+    sg: number;
+  };
+  cloudCover: {
+    noaa: number;
+    sg: number;
+  };
+  humidity: {
+    noaa: number;
+    sg: number;
+  };
+  precipitation: {
+    noaa: number;
+    sg: number;
+  };
+  windSpeed: {
+    noaa: number;
+    sg: number;
+  };
+  time: string;
+}
+
+export interface state extends weatherData {
+  error: string;
+  api: API;
+}
+
+export type API = 'openWeather' | 'stormGlass';

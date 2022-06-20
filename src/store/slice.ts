@@ -1,10 +1,6 @@
 import { AnyAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { fetchOpenWeatherAPI, fetchCityOpenWeatherAPI } from './thunks';
-import { weatherData } from './types';
-
-interface state extends weatherData {
-  error: string;
-}
+import { fetchOpenWeather, fetchCityOpenWeather, fetchStormGlass } from './thunks';
+import { state } from './types';
 
 const initialState: state = {
   location: {
@@ -19,6 +15,7 @@ const initialState: state = {
     },
   ],
   error: '',
+  api: 'openWeather',
 };
 
 export const weatherSlice = createSlice({
@@ -27,15 +24,24 @@ export const weatherSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(fetchOpenWeatherAPI.fulfilled, (state, { payload }) => {
+      .addCase(fetchOpenWeather.fulfilled, (state, { payload }) => {
         if (payload) {
-          (state.error = ''), (state.location = payload.location);
+          state.error = '';
+          state.location = payload.location;
           state.weather = payload.weather;
         }
       })
-      .addCase(fetchCityOpenWeatherAPI.fulfilled, (state, { payload }) => {
+      .addCase(fetchCityOpenWeather.fulfilled, (state, { payload }) => {
         if (payload) {
-          (state.error = ''), (state.location = payload.location);
+          state.error = '';
+          state.location = payload.location;
+          state.weather = payload.weather;
+        }
+      })
+      .addCase(fetchStormGlass.fulfilled, (state, { payload }) => {
+        if (payload) {
+          state.error = '';
+          state.location = payload.location;
           state.weather = payload.weather;
         }
       })

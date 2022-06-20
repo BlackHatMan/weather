@@ -1,4 +1,4 @@
-import { useAppSelector } from '../../store/hooks';
+import { useAppSelector } from '../../store/store';
 import { Box, Container } from '@mui/material';
 import TodayCard from './TodayCard';
 import Day from './Day';
@@ -42,7 +42,7 @@ const Forecast = () => {
             },
           }}
         >
-          {weather.map((day, i) => {
+          {weather.slice(1).map((day, i) => {
             return (
               <Day
                 key={`${day.date}${i}`}

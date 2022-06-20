@@ -1,5 +1,5 @@
 import { Box, Typography, useMediaQuery } from '@mui/material';
-import { useAppSelector } from '../../store/hooks';
+import { useAppSelector } from '../../store/store';
 import WeatherImage from '../WeatherImage';
 import { DayOfWeek } from './Day';
 

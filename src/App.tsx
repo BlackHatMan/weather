@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import Forecast from './component/weather/Forecast';
 import Header from './component/Header';
-import { useAppDispatch } from './store/hooks';
-import { fetchOpenWeatherAPI } from './store/thunks';
+import { useAppDispatch } from './store/store';
+import { fetchOpenWeather } from './store/thunks';
 import SnackbarMessage from './component/SnackBar';
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((pos: any) => {
-      dispatch(fetchOpenWeatherAPI(pos.coords));
+      dispatch(fetchOpenWeather(pos.coords));
     });
   }, [dispatch]);
 

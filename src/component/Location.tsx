@@ -1,16 +1,25 @@
 import { styled, TextField, Typography } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { fetchCityOpenWeatherAPI } from '../store/thunks';
+import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../store/store';
+import { fetchCityOpenWeather, fetchStormGlass } from '../store/thunks';
+import { API } from '../store/types';
 import SelectAPI from './SelectApi';
 
 const Location = () => {
+  const [api, setApi] = useState<API>('openWeather');
   const { city, country } = useAppSelector((store) => store.weather.location);
   const dispatch = useAppDispatch();
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && city !== e.currentTarget.value && e.currentTarget.value) {
-      dispatch(fetchCityOpenWeatherAPI(e.currentTarget.value));
+    const queryCity = e.currentTarget.value;
+    if (e.key === 'Enter' && city !== queryCity && queryCity) {
+      api === 'openWeather'
+        ? dispatch(fetchCityOpenWeather(queryCity))
+        : dispatch(fetchStormGlass(queryCity));
     }
+  };
+  const handlerAPI = (api: API) => {
+    setApi(api);
   };
 
   return (
@@ -29,7 +38,7 @@ const Location = () => {
         {country}
       </Typography>
 
-      <SelectAPI />
+      <SelectAPI handlerAPI={handlerAPI} />
     </div>
   );
 };
