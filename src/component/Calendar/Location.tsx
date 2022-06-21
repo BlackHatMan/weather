@@ -20,6 +20,11 @@ const Location = () => {
   };
   const handlerAPI = (api: API) => {
     setApi(api);
+    if (city) {
+      api === 'openWeather'
+        ? dispatch(fetchCityOpenWeather(city))
+        : dispatch(fetchStormGlass(city));
+    }
   };
 
   return (
