@@ -14,7 +14,12 @@ const CalendarContainer = () => {
             sm: 'space-between',
             xs: 'center',
           },
-          pt: 10,
+          pt: {
+            lg: '5rem',
+            md: '5rem',
+            sm: '3rem',
+            xs: '3rem',
+          },
           flexWrap: {
             md: 'wrap',
             sm: 'wrap',

@@ -1,4 +1,4 @@
-import { Typography, useMediaQuery } from '@mui/material';
+import { Box, Typography, useMediaQuery } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 const Clock = () => {
@@ -7,7 +7,7 @@ const Clock = () => {
   const matches = useMediaQuery('(max-width:800px)');
 
   useEffect(() => {
-    const id = setInterval(() => setDateTime(new Date()), 20000);
+    const id = setInterval(() => setDateTime(new Date()), 10000);
     return () => {
       clearInterval(id);
     };
@@ -23,12 +23,12 @@ const Clock = () => {
   });
 
   return (
-    <div>
-      <Typography fontSize={matches ? 44 : 68} lineHeight={1}>
+    <Box pb={3}>
+      <Typography fontSize={matches ? '3rem' : '4rem'} lineHeight={1}>
         {hours}:{minutes}
       </Typography>
-      <Typography fontSize={matches ? 18 : 24}>{fullDate}</Typography>
-    </div>
+      <Typography fontSize={matches ? '1rem' : '1.5rem'}>{fullDate}</Typography>
+    </Box>
   );
 };
 

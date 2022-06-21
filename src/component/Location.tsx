@@ -49,6 +49,5 @@ const StyledTextField = styled(TextField)({
   '& .MuiInput-input': {
     textAlign: 'end',
     fontSize: 32,
-    maxWidth: '10rem',
   },
 });

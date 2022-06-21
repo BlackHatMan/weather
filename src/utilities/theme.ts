@@ -19,6 +19,7 @@ export const theme = createTheme({
         root: {
           '& .MuiInputBase-input': {
             color: 'white',
+            maxWidth: '10rem',
           },
           '& .MuiInputLabel-root': {
             color: 'white',

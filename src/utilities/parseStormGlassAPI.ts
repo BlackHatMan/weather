@@ -9,23 +9,20 @@ export function parseStormGlassAPI(data: stormGlassAPIResponse, country: string,
   const weather = data.hours
     .map((el) => {
       return {
-        date: el.time,
+        date: new Date(el.time).toLocaleDateString('en-US', {
+          weekday: 'short',
+        }),
         description: parseDescription(el),
-        temp: el.airTemperature.sg,
+        temp: `${Math.round(el.airTemperature.sg)}${celsius}`,
       };
     })
     .filter((_, idx) => idx % 12 === 0)
-    .map((el) => {
-      return {
-        ...el,
-        temp: `${el.temp}${celsius}`,
-      };
-    });
+    .filter((_, idx) => idx % 2 !== 0)
+    .slice(0, 7);
 
   function parseDescription(hours: stormGlassHoursData) {
     if (hours.airTemperature.sg < 0) return 'Snow';
     else if (hours.precipitation.sg > 0.02) return 'Rain';
-    // else if (hours.windSpeed.sg > 7) return 'Wind';
     else if (hours.cloudCover.sg < 25) return 'Clear';
     else return 'Clouds';
   }
