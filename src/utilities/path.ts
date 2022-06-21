@@ -2,11 +2,11 @@ import cloud from '../assets/cloud.jpeg';
 import sun from '../assets/sun.jpg';
 import rain from '../assets/rain.jpg';
 import snow from '../assets/snow.jpg';
+import cloudIcon from '../assets/icon/cloudIcon.jpg';
+import rainIcon from '../assets/icon/rainIcon.jpg';
+import sunIcon from '../assets/icon/sunIcon.jpg';
+import snowIcon from '../assets/icon/snowIcon.jpg';
 import { weather } from '../store/types';
-import cloudIcon from '../assets/imgWeather/cloud.jpg';
-import rainIcon from '../assets/imgWeather/rain.jpg';
-import sunIcon from '../assets/imgWeather/sun.jpg';
-import snowIcon from '../assets/imgWeather/snow.jpg';
 
 export const getPathWeatherImg = (description: string) => {
   if (description === 'Clouds') return cloudIcon;
