@@ -1,5 +1,5 @@
 import { TextField } from '@mui/material';
-import { DayOfWeek } from './weather/Day';
+import { DayOfWeek } from '../weather/Day';
 
 const TODO = () => {
   const handlerToDO = ({ target }: React.FocusEvent<HTMLInputElement>) => {

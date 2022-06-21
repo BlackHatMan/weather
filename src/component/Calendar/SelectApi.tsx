@@ -1,6 +1,6 @@
 import { MenuItem, TextField } from '@mui/material';
 import React from 'react';
-import { API } from '../store/types';
+import { API } from '../../store/types';
 
 const SelectAPI: React.FC<{ handlerAPI: (api: API) => void }> = ({ handlerAPI }) => {
   const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {

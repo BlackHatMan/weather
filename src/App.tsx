@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from './store/store';
 import { fetchCityOpenWeather, fetchOpenWeather } from './store/thunks';
-import CalendarContainer from './component/CalendarContainer';
+import CalendarContainer from './component/Calendar/CalendarContainer';
 import ForecastContainer from './component/weather/ForecastContainer';
 import SnackbarMessage from './component/SnackBar';
 import { Box } from '@mui/material';

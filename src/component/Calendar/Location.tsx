@@ -1,8 +1,8 @@
 import { styled, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../store/store';
-import { fetchCityOpenWeather, fetchStormGlass } from '../store/thunks';
-import { API } from '../store/types';
+import { useAppDispatch, useAppSelector } from '../../store/store';
+import { fetchCityOpenWeather, fetchStormGlass } from '../../store/thunks';
+import { API } from '../../store/types';
 import SelectAPI from './SelectApi';
 
 const Location = () => {
