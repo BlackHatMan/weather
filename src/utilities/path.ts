@@ -3,12 +3,17 @@ import sun from '../assets/sun.jpg';
 import rain from '../assets/rain.jpg';
 import snow from '../assets/snow.jpg';
 import { weather } from '../store/types';
+import cloudIcon from '../assets/imgWeather/cloud.jpg';
+import rainIcon from '../assets/imgWeather/rain.jpg';
+import sunIcon from '../assets/imgWeather/sun.jpg';
+import snowIcon from '../assets/imgWeather/snow.jpg';
 
-export const path = {
-  cloud: './img/cloud.jpg',
-  rain: './img/rain.jpg',
-  snow: './img/snow.jpg',
-  sun: './img/sun.jpg',
+export const getPathWeatherImg = (description: string) => {
+  if (description === 'Clouds') return cloudIcon;
+  else if (description === 'Rain') return rainIcon;
+  else if (description === 'Clear') return sunIcon;
+  else if (description === 'Snow') return snowIcon;
+  else return cloudIcon;
 };
 
 export const getPathBackground = (weather: weather[]) => {
