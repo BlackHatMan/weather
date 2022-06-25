@@ -1,29 +1,24 @@
 import { styled, TextField, Typography } from '@mui/material';
-import { useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../store/store';
-import { fetchCityOpenWeather, fetchStormGlass } from '../../store/thunks';
-import { API } from '../../store/types';
+import { useGetCoordCityQuery } from '../../store/RTK';
 import SelectAPI from './SelectApi';
+import { handlerCity, handlerAPI } from './CalendarContainer';
 
-const Location = () => {
-  const [api, setApi] = useState<API>('openWeather');
-  const { city, country } = useAppSelector((store) => store.weather.location);
-  const dispatch = useAppDispatch();
+const Location = ({
+  handlerCity,
+  city,
+  handlerAPI,
+}: {
+  handlerCity: handlerCity;
+  city: string;
+  handlerAPI: handlerAPI;
+}) => {
+  const { data } = useGetCoordCityQuery(city);
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const queryCity = e.currentTarget.value;
-    if (e.key === 'Enter' && city !== queryCity && queryCity) {
-      api === 'openWeather'
-        ? dispatch(fetchCityOpenWeather(queryCity))
-        : dispatch(fetchStormGlass(queryCity));
-    }
-  };
-  const handlerAPI = (api: API) => {
-    setApi(api);
-    if (city) {
-      api === 'openWeather'
-        ? dispatch(fetchCityOpenWeather(city))
-        : dispatch(fetchStormGlass(city));
+    if (e.key === 'Enter' && queryCity) {
+      handlerCity(queryCity);
+      localStorage.setItem('city', queryCity);
     }
   };
 
@@ -40,7 +35,7 @@ const Location = () => {
         autoComplete="off"
       />
       <Typography textAlign="end" fontSize={18}>
-        {country}
+        {data?.country}
       </Typography>
 
       <SelectAPI handlerAPI={handlerAPI} />

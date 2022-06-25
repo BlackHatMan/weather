@@ -16,10 +16,12 @@ export const getPathWeatherImg = (description: string) => {
   else return cloudIcon;
 };
 
-export const getPathBackground = (weather: weather[]) => {
-  if (weather[0].description === 'Clear') return sun;
-  else if (weather[0].description === 'Clouds') return cloud;
-  else if (weather[0].description === 'Rain') return rain;
-  else if (weather[0].description === 'Snow') return snow;
-  else return cloud;
+export const getPathBackground = (weather?: weather[]) => {
+  if (weather) {
+    if (weather[0].description === 'Clear') return sun;
+    else if (weather[0].description === 'Clouds') return cloud;
+    else if (weather[0].description === 'Rain') return rain;
+    else if (weather[0].description === 'Snow') return snow;
+    else return cloud;
+  }
 };

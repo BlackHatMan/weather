@@ -1,30 +1,26 @@
-import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from './store/store';
-import { fetchCityOpenWeather, fetchOpenWeather } from './store/thunks';
 import CalendarContainer from './component/Calendar/CalendarContainer';
 import ForecastContainer from './component/weather/ForecastContainer';
 import SnackbarMessage from './component/SnackBar';
 import { Box } from '@mui/material';
 import { getPathBackground } from './utilities/path';
+import { API, weather } from './store/types';
+import { useState } from 'react';
 
 function App() {
-  const dispatch = useAppDispatch();
-  const { weather } = useAppSelector((state) => state.weather);
+  const [city, setCity] = useState(localStorage.getItem('city') || 'Zhlobin');
+  const [api, setApi] = useState<API>('openWeather');
 
-  useEffect(() => {
-    const city = localStorage.getItem('city');
-    city
-      ? dispatch(fetchCityOpenWeather(city))
-      : navigator.geolocation.getCurrentPosition(
-          (pos: GeolocationPosition) => {
-            dispatch(fetchOpenWeather(pos.coords));
-          },
-          () => {
-            dispatch(fetchCityOpenWeather('Minsk'));
-          }
-        );
-  }, [dispatch]);
+  const [bgPath, setBgPath] = useState<string | undefined>();
 
+  const handlerPathBg = (weather?: weather[]) => {
+    setBgPath(getPathBackground(weather));
+  };
+  const handlerCity = (cityQuery: string) => {
+    setCity(cityQuery);
+  };
+  const handlerAPI = (API: API) => {
+    setApi(API);
+  };
   return (
     <Box
       sx={{
@@ -32,11 +28,11 @@ function App() {
         height: ' 100vh',
         display: 'grid',
         gridTemplateRows: '7fr 3fr',
-        background: `center/cover no-repeat url(${getPathBackground(weather)})`,
+        background: `center/cover no-repeat url(${bgPath})`,
       }}
     >
-      <CalendarContainer />
-      <ForecastContainer />
+      <CalendarContainer handlerCity={handlerCity} city={city} handlerAPI={handlerAPI} />
+      <ForecastContainer handlerPathBg={handlerPathBg} city={city} api={api} />
       <SnackbarMessage />
     </Box>
   );

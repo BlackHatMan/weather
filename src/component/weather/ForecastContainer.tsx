@@ -1,11 +1,44 @@
-import { useAppSelector } from '../../store/store';
 import { Box, Container, Grow } from '@mui/material';
 import TodayCard from './TodayCard';
 import Day from './Day';
+import { API, coordinates, weather } from '../../store/types';
+import { useState, useEffect } from 'react';
+import { useGetCoordCityQuery, useGetOpenWeatherQuery } from '../../store/RTK';
 
-const ForecastContainer = () => {
-  const { weather, pending } = useAppSelector((state) => state.weather);
+const ForecastContainer = ({
+  handlerPathBg,
+  city,
+  api,
+}: {
+  handlerPathBg: (weather: weather[] | undefined) => void;
+  city: string;
+  api: API;
+}) => {
+  const [position, setPos] = useState<coordinates>();
 
+  useEffect(() => {
+    if (!city) {
+      navigator.geolocation.getCurrentPosition(({ coords }) => {
+        setPos({ latitude: coords.latitude, longitude: coords.longitude });
+      });
+    }
+  }, [city]);
+
+  const { data: coordinate } = useGetCoordCityQuery(city, { skip: !city });
+
+  const { data, isFetching } = useGetOpenWeatherQuery(position ? position : coordinate, {
+    skip: skip(),
+  });
+
+  useEffect(() => {
+    handlerPathBg(data?.weather);
+  }, [data, handlerPathBg]);
+
+  function skip() {
+    if (position?.latitude) return false;
+    else if (coordinate) return false;
+    else return true;
+  }
   return (
     <Box
       sx={{
@@ -32,7 +65,7 @@ const ForecastContainer = () => {
         }}
       >
         <TodayCard />
-        <Grow in={!pending}>
+        <Grow in={!isFetching}>
           <Box
             display="flex"
             sx={{
@@ -43,7 +76,7 @@ const ForecastContainer = () => {
               },
             }}
           >
-            {weather.slice(1).map((day, i) => {
+            {data?.weather.slice(1).map((day, i) => {
               return (
                 <Day
                   key={`${day.date}${i}`}

@@ -73,3 +73,10 @@ export interface state extends weatherData {
 }
 
 export type API = 'openWeather' | 'stormGlass';
+
+//export type coordinates = Partial<Pick<GeolocationCoordinates, 'latitude' | 'longitude'>>;
+
+export interface coordinates {
+  latitude?: number | undefined;
+  longitude?: number | undefined;
+}

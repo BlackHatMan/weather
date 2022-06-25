@@ -1,9 +1,18 @@
 import { Container } from '@mui/material';
+import { API } from '../../store/types';
 import Clock from './Clock';
 import Location from './Location';
 import TODO from './TODO';
 
-const CalendarContainer = () => {
+const CalendarContainer = ({
+  handlerCity,
+  city,
+  handlerAPI,
+}: {
+  handlerCity: handlerCity;
+  city: string;
+  handlerAPI: handlerAPI;
+}) => {
   return (
     <Container>
       <Container
@@ -28,7 +37,7 @@ const CalendarContainer = () => {
         }}
       >
         <Clock />
-        <Location />
+        <Location handlerCity={handlerCity} city={city} handlerAPI={handlerAPI} />
       </Container>
       <TODO />
     </Container>
@@ -36,3 +45,6 @@ const CalendarContainer = () => {
 };
 
 export default CalendarContainer;
+
+export type handlerCity = (cityQuery: string) => void;
+export type handlerAPI = (api: API) => void;
