@@ -3,7 +3,12 @@ import TodayCard from './TodayCard';
 import Day from './Day';
 import { API, coordinates, weather } from '../../store/types';
 import { useState, useEffect } from 'react';
-import { useGetCoordCityQuery, useGetOpenWeatherQuery } from '../../store/RTK';
+import {
+  useGetCoordCityQuery,
+  useGetOpenWeatherQuery,
+  useGetStormGlassWeatherQuery,
+} from '../../store/RTK';
+import SnackbarMessage from '../SnackBar';
 
 const ForecastContainer = ({
   handlerPathBg,
@@ -22,12 +27,16 @@ const ForecastContainer = ({
         setPos({ latitude: coords.latitude, longitude: coords.longitude });
       });
     }
-  }, [city]);
+  }, []);
 
-  const { data: coordinate } = useGetCoordCityQuery(city, { skip: !city });
+  const { data: coordinate, error } = useGetCoordCityQuery(city, { skip: city ? false : true });
 
   const { data, isFetching } = useGetOpenWeatherQuery(position ? position : coordinate, {
-    skip: skip(),
+    skip: api === 'stormGlass' || skip(),
+  });
+
+  const { data: dataStorm } = useGetStormGlassWeatherQuery(position ? position : coordinate, {
+    skip: api === 'openWeather',
   });
 
   useEffect(() => {
@@ -36,9 +45,10 @@ const ForecastContainer = ({
 
   function skip() {
     if (position?.latitude) return false;
-    else if (coordinate) return false;
+    else if (coordinate?.latitude) return false;
     else return true;
   }
+
   return (
     <Box
       sx={{
@@ -64,7 +74,7 @@ const ForecastContainer = ({
           },
         }}
       >
-        <TodayCard />
+        <TodayCard weather={api === 'openWeather' ? data?.weather[0] : dataStorm?.weather[0]} />
         <Grow in={!isFetching}>
           <Box
             display="flex"
@@ -76,19 +86,31 @@ const ForecastContainer = ({
               },
             }}
           >
-            {data?.weather.slice(1).map((day, i) => {
-              return (
-                <Day
-                  key={`${day.date}${i}`}
-                  date={day.date}
-                  description={day.description}
-                  temp={day.temp}
-                />
-              );
-            })}
+            {api === 'openWeather'
+              ? data?.weather.slice(1).map((day, i) => {
+                  return (
+                    <Day
+                      key={`${day.date}${i}`}
+                      date={day.date}
+                      description={day.description}
+                      temp={day.temp}
+                    />
+                  );
+                })
+              : dataStorm?.weather.slice(1).map((day, i) => {
+                  return (
+                    <Day
+                      key={`${day.date}${i}`}
+                      date={day.date}
+                      description={day.description}
+                      temp={day.temp}
+                    />
+                  );
+                })}
           </Box>
         </Grow>
       </Container>
+      <SnackbarMessage error={error} />
     </Box>
   );
 };

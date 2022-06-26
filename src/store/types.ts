@@ -66,15 +66,7 @@ export interface stormGlassHoursData {
   time: string;
 }
 
-export interface state extends weatherData {
-  error: string;
-  api: API;
-  pending: boolean;
-}
-
 export type API = 'openWeather' | 'stormGlass';
-
-//export type coordinates = Partial<Pick<GeolocationCoordinates, 'latitude' | 'longitude'>>;
 
 export interface coordinates {
   latitude?: number | undefined;

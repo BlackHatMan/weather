@@ -1,15 +1,15 @@
 import { useState, forwardRef, useEffect } from 'react';
 import { Stack, Snackbar } from '@mui/material';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
-import { useAppSelector } from '../store/store';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
+import { SerializedError } from '@reduxjs/toolkit';
 
 const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const SnackbarMessage = () => {
+const SnackbarMessage = ({ error }: { error: any }) => {
   const [open, setOpen] = useState(false);
-  const { error } = useAppSelector((state) => state.weather);
 
   useEffect(() => {
     if (error) {
@@ -27,7 +27,7 @@ const SnackbarMessage = () => {
     <Stack spacing={2} sx={{ width: '100%' }}>
       <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
         <Alert severity="error" sx={{ width: '100%' }}>
-          {error}
+          {error?.data.error.context.query.message}
         </Alert>
       </Snackbar>
     </Stack>

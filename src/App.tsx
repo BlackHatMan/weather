@@ -1,6 +1,5 @@
 import CalendarContainer from './component/Calendar/CalendarContainer';
 import ForecastContainer from './component/weather/ForecastContainer';
-import SnackbarMessage from './component/SnackBar';
 import { Box } from '@mui/material';
 import { getPathBackground } from './utilities/path';
 import { API, weather } from './store/types';
@@ -33,7 +32,6 @@ function App() {
     >
       <CalendarContainer handlerCity={handlerCity} city={city} handlerAPI={handlerAPI} />
       <ForecastContainer handlerPathBg={handlerPathBg} city={city} api={api} />
-      <SnackbarMessage />
     </Box>
   );
 }

@@ -28,7 +28,7 @@ const WeatherImage: React.FC<weatherImage> = ({ description, height = 85 }) => {
 export default WeatherImage;
 
 interface weatherImage {
-  description: string;
+  description?: string;
   width?: number;
   height?: number;
 }

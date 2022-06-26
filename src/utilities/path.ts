@@ -8,7 +8,7 @@ import sunIcon from '../assets/icon/sunIcon.jpg';
 import snowIcon from '../assets/icon/snowIcon.jpg';
 import { weather } from '../store/types';
 
-export const getPathWeatherImg = (description: string) => {
+export const getPathWeatherImg = (description?: string) => {
   if (description === 'Clouds') return cloudIcon;
   else if (description === 'Rain') return rainIcon;
   else if (description === 'Clear') return sunIcon;

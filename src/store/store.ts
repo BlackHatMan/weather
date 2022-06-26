@@ -1,16 +1,19 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import { rtkApi, coordinateApi } from './RTK';
-import weatherReducer from './slice';
+import { openWeatherAPI, positionStackAPI, stormGlassAPI } from './RTK';
 
 export const store = configureStore({
   reducer: {
-    weather: weatherReducer,
-    [rtkApi.reducerPath]: rtkApi.reducer,
-    [coordinateApi.reducerPath]: coordinateApi.reducer,
+    [openWeatherAPI.reducerPath]: openWeatherAPI.reducer,
+    [positionStackAPI.reducerPath]: positionStackAPI.reducer,
+    [stormGlassAPI.reducerPath]: stormGlassAPI.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(rtkApi.middleware, coordinateApi.middleware),
+    getDefaultMiddleware().concat(
+      openWeatherAPI.middleware,
+      positionStackAPI.middleware,
+      stormGlassAPI.middleware
+    ),
 });
 
 export type AppDispatch = typeof store.dispatch;

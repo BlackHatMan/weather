@@ -1,8 +1,16 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { parseOpenWeatherData } from '../utilities/parseOpenWetherAPI';
-import { coordinates, OpenWeatherAPI, positionstackAPIResp, weatherData } from './types';
+import { parseStormGlassAPI } from '../utilities/parseStormGlassAPI';
+import {
+  coordinates,
+  OpenWeatherAPI,
+  positionstackAPIResp,
+  stormGlassAPIResponse,
+  weather,
+  weatherData,
+} from './types';
 
-export const rtkApi = createApi({
+export const openWeatherAPI = createApi({
   reducerPath: 'weatherAPI',
   baseQuery: fetchBaseQuery({
     baseUrl: `https://api.openweathermap.org/data/2.5`,
@@ -23,7 +31,25 @@ export const rtkApi = createApi({
   }),
 });
 
-export const coordinateApi = createApi({
+export const stormGlassAPI = createApi({
+  reducerPath: 'stormGlassAPI',
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'https://api.stormglass.io/v2/weather',
+  }),
+  endpoints: (builder) => ({
+    getStormGlassWeather: builder.query<{ weather: weather[] }, coordinates | undefined>({
+      query: (data) => ({
+        url: `/point?lat=${data?.latitude}&lng=${data?.longitude}&params=airTemperature,humidity,windSpeed,precipitation,cloudCover`,
+        headers: {
+          Authorization: `${process.env.REACT_APP_API_KEY_STORMGLASS}`,
+        },
+      }),
+      transformResponse: (response: stormGlassAPIResponse) => parseStormGlassAPI(response),
+    }),
+  }),
+});
+
+export const positionStackAPI = createApi({
   reducerPath: 'coordinateApi',
   baseQuery: fetchBaseQuery({
     baseUrl: `http://api.positionstack.com/v1/`,
@@ -43,5 +69,6 @@ export const coordinateApi = createApi({
   }),
 });
 
-export const { useGetOpenWeatherQuery } = rtkApi;
-export const { useGetCoordCityQuery } = coordinateApi;
+export const { useGetOpenWeatherQuery } = openWeatherAPI;
+export const { useGetStormGlassWeatherQuery } = stormGlassAPI;
+export const { useGetCoordCityQuery } = positionStackAPI;

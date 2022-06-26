@@ -1,32 +1,23 @@
 import { stormGlassAPIResponse, stormGlassHoursData } from '../store/types';
 
-export function parseStormGlassAPI(data: stormGlassAPIResponse, country: string, locality: string) {
+export function parseStormGlassAPI(data: stormGlassAPIResponse) {
   const celsius = '\xB0';
-  try {
-    const location = {
-      country,
-      city: locality,
-    };
 
-    const weather = data.hours
-      .map((el) => {
-        return {
-          date: new Date(el.time).toLocaleDateString('en-US', {
-            weekday: 'short',
-          }),
-          description: parseDescription(el),
-          temp: `${Math.round(el.airTemperature.sg)}${celsius}`,
-        };
-      })
-      .filter((_, idx) => idx % 12 === 0)
-      .filter((_, idx) => idx % 2 !== 0)
-      .slice(0, 7);
+  const weather = data.hours
+    .map((el) => {
+      return {
+        date: new Date(el.time).toLocaleDateString('en-US', {
+          weekday: 'short',
+        }),
+        description: parseDescription(el),
+        temp: `${Math.round(el.airTemperature.sg)}${celsius}`,
+      };
+    })
+    .filter((_, idx) => idx % 12 === 0)
+    .filter((_, idx) => idx % 2 !== 0)
+    .slice(0, 7);
 
-    return { location, weather };
-  } catch (e) {
-    const error = e as Error;
-    console.error(error.message);
-  }
+  return { weather };
 }
 
 function parseDescription(hours: stormGlassHoursData) {
