@@ -2,6 +2,7 @@ import { styled, TextField, Typography } from '@mui/material';
 import { useGetCoordCityQuery } from '../../store/RTK';
 import SelectAPI from './SelectApi';
 import { handlerCity, handlerAPI } from './CalendarContainer';
+import { useEffect } from 'react';
 
 const Location = ({
   handlerCity,
@@ -18,9 +19,11 @@ const Location = ({
     const queryCity = e.currentTarget.value;
     if (e.key === 'Enter' && queryCity) {
       handlerCity(queryCity);
-      localStorage.setItem('city', queryCity);
     }
   };
+  useEffect(() => {
+    if (data?.name) localStorage.setItem('city', data?.name);
+  }, [data]);
 
   return (
     <div>
@@ -28,9 +31,9 @@ const Location = ({
         InputProps={{
           onKeyDown: handleKeyPress,
         }}
-        key={city}
+        key={data?.name || city}
         variant="standard"
-        defaultValue={city}
+        defaultValue={data?.name || city}
         placeholder="Enter city"
         autoComplete="off"
       />

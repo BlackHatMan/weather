@@ -2,13 +2,15 @@ import CalendarContainer from './component/Calendar/CalendarContainer';
 import ForecastContainer from './component/weather/ForecastContainer';
 import { Box } from '@mui/material';
 import { getPathBackground } from './utilities/path';
-import { API, weather } from './store/types';
-import { useState } from 'react';
+import { API, coordinates, weather } from './store/types';
+import { useEffect, useState } from 'react';
+import { useGetCoordCityQuery } from './store/RTK';
+import SnackbarMessage from './component/SnackBar';
 
 function App() {
-  const [city, setCity] = useState(localStorage.getItem('city') || 'Zhlobin');
+  const [city, setCity] = useState(localStorage.getItem('city') as string);
   const [api, setApi] = useState<API>('openWeather');
-
+  const [position, setPosition] = useState<coordinates>();
   const [bgPath, setBgPath] = useState<string | undefined>();
 
   const handlerPathBg = (weather?: weather[]) => {
@@ -20,6 +22,17 @@ function App() {
   const handlerAPI = (API: API) => {
     setApi(API);
   };
+
+  useEffect(() => {
+    if (!city) {
+      navigator.geolocation.getCurrentPosition(({ coords }) => {
+        setPosition({ latitude: coords.latitude, longitude: coords.longitude });
+      });
+    }
+  }, []);
+
+  const { data, error } = useGetCoordCityQuery(city, { skip: city ? false : true });
+
   return (
     <Box
       sx={{
@@ -31,7 +44,8 @@ function App() {
       }}
     >
       <CalendarContainer handlerCity={handlerCity} city={city} handlerAPI={handlerAPI} />
-      <ForecastContainer handlerPathBg={handlerPathBg} city={city} api={api} />
+      <ForecastContainer handlerPathBg={handlerPathBg} api={api} coordinate={data || position} />
+      <SnackbarMessage error={error} />
     </Box>
   );
 }

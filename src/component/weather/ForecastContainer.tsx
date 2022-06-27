@@ -1,53 +1,31 @@
 import { Box, Container, Grow } from '@mui/material';
 import TodayCard from './TodayCard';
 import Day from './Day';
-import { API, coordinates, weather } from '../../store/types';
-import { useState, useEffect } from 'react';
-import {
-  useGetCoordCityQuery,
-  useGetOpenWeatherQuery,
-  useGetStormGlassWeatherQuery,
-} from '../../store/RTK';
+import { API, coordinates, positionstackAPIResp, weather } from '../../store/types';
+import { useEffect } from 'react';
+import { useGetOpenWeatherQuery, useGetStormGlassWeatherQuery } from '../../store/RTK';
 import SnackbarMessage from '../SnackBar';
 
 const ForecastContainer = ({
   handlerPathBg,
-  city,
+  coordinate,
   api,
 }: {
   handlerPathBg: (weather: weather[] | undefined) => void;
-  city: string;
+  coordinate: coordinates | positionstackAPIResp | undefined;
   api: API;
 }) => {
-  const [position, setPos] = useState<coordinates>();
-
-  useEffect(() => {
-    if (!city) {
-      navigator.geolocation.getCurrentPosition(({ coords }) => {
-        setPos({ latitude: coords.latitude, longitude: coords.longitude });
-      });
-    }
-  }, []);
-
-  const { data: coordinate, error } = useGetCoordCityQuery(city, { skip: city ? false : true });
-
-  const { data, isFetching } = useGetOpenWeatherQuery(position ? position : coordinate, {
-    skip: api === 'stormGlass' || skip(),
+  const { data, isFetching, error } = useGetOpenWeatherQuery(coordinate, {
+    skip: api === 'stormGlass' || typeof coordinate?.latitude !== 'number',
   });
 
-  const { data: dataStorm } = useGetStormGlassWeatherQuery(position ? position : coordinate, {
+  const { data: dataStorm } = useGetStormGlassWeatherQuery(coordinate, {
     skip: api === 'openWeather',
   });
 
   useEffect(() => {
     handlerPathBg(data?.weather);
-  }, [data, handlerPathBg]);
-
-  function skip() {
-    if (position?.latitude) return false;
-    else if (coordinate?.latitude) return false;
-    else return true;
-  }
+  }, [data]);
 
   return (
     <Box

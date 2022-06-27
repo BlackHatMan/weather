@@ -36,6 +36,7 @@ export interface positionstackAPIResp {
   latitude: number;
   longitude: number;
   locality: string;
+  name: string;
 }
 
 export interface stormGlassAPIResponse {
