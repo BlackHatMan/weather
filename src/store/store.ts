@@ -16,7 +16,7 @@ const persistConfig = {
   key: 'root',
   version: 1,
   storage,
-  blacklist: [openWeatherAPI.reducerPath, positionStackAPI.reducerPath, stormGlassAPI.reducerPath],
+  blacklist: [stormGlassAPI.reducerPath],
 };
 
 const rootReducer = combineReducers({
@@ -25,7 +25,7 @@ const rootReducer = combineReducers({
   [stormGlassAPI.reducerPath]: stormGlassAPI.reducer,
 });
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const persistedReducer = persistReducer<ReturnType<typeof rootReducer>>(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
