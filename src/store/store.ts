@@ -1,29 +1,40 @@
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { openWeatherAPI, positionStackAPI, stormGlassAPI } from './RTK';
+import storage from 'redux-persist/lib/storage';
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
 
-export const store = configureStore({
-  reducer: {
-    [openWeatherAPI.reducerPath]: openWeatherAPI.reducer,
-    [positionStackAPI.reducerPath]: positionStackAPI.reducer,
-    [stormGlassAPI.reducerPath]: stormGlassAPI.reducer,
-  },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(
-      openWeatherAPI.middleware,
-      positionStackAPI.middleware,
-      stormGlassAPI.middleware
-    ),
+const persistConfig = {
+  key: 'root',
+  version: 1,
+  storage,
+  blacklist: [openWeatherAPI.reducerPath, positionStackAPI.reducerPath, stormGlassAPI.reducerPath],
+};
+
+const rootReducer = combineReducers({
+  [openWeatherAPI.reducerPath]: openWeatherAPI.reducer,
+  [positionStackAPI.reducerPath]: positionStackAPI.reducer,
+  [stormGlassAPI.reducerPath]: stormGlassAPI.reducer,
 });
 
-export type AppDispatch = typeof store.dispatch;
-export type RootState = ReturnType<typeof store.getState>;
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  Action<string>
->;
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export const useAppDispatch = () => useDispatch<AppDispatch>();
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }).concat(openWeatherAPI.middleware, positionStackAPI.middleware, stormGlassAPI.middleware),
+});
+
+export const persistor = persistStore(store);

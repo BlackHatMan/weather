@@ -4,7 +4,6 @@ import Day from './Day';
 import { API, coordinates, positionstackAPIResp, weather } from '../../store/types';
 import { useEffect } from 'react';
 import { useGetOpenWeatherQuery, useGetStormGlassWeatherQuery } from '../../store/RTK';
-import SnackbarMessage from '../SnackBar';
 
 const ForecastContainer = ({
   handlerPathBg,
@@ -15,8 +14,8 @@ const ForecastContainer = ({
   coordinate: coordinates | positionstackAPIResp | undefined;
   api: API;
 }) => {
-  const { data, isFetching, error } = useGetOpenWeatherQuery(coordinate, {
-    skip: api === 'stormGlass' || typeof coordinate?.latitude !== 'number',
+  const { data, isFetching } = useGetOpenWeatherQuery(coordinate, {
+    skip: api === 'stormGlass' || !coordinate?.latitude,
   });
 
   const { data: dataStorm } = useGetStormGlassWeatherQuery(coordinate, {
@@ -88,7 +87,6 @@ const ForecastContainer = ({
           </Box>
         </Grow>
       </Container>
-      <SnackbarMessage error={error} />
     </Box>
   );
 };

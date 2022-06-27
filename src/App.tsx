@@ -31,7 +31,7 @@ function App() {
     }
   }, []);
 
-  const { data, error } = useGetCoordCityQuery(city, { skip: city ? false : true });
+  const { data, error } = useGetCoordCityQuery(city, { skip: !city });
 
   return (
     <Box
