@@ -1,6 +1,6 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { openWeatherAPI, positionStackAPI, stormGlassAPI } from './RTK';
-import storage from 'redux-persist/lib/storage';
+import storageSession from 'redux-persist/lib/storage/session';
 import {
   persistStore,
   persistReducer,
@@ -15,8 +15,7 @@ import {
 const persistConfig = {
   key: 'root',
   version: 1,
-  storage,
-  blacklist: [stormGlassAPI.reducerPath],
+  storage: storageSession,
 };
 
 const rootReducer = combineReducers({

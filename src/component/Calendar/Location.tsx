@@ -13,7 +13,7 @@ const Location = ({
   city: string;
   handlerAPI: handlerAPI;
 }) => {
-  const { data } = useGetCoordCityQuery(city, { skip: city ? false : true });
+  const { data } = useGetCoordCityQuery(city, { skip: !!city });
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const queryCity = e.currentTarget.value;
