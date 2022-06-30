@@ -1,9 +1,9 @@
+import { useGetOpenWeatherQuery, useGetStormGlassWeatherQuery } from '../../store/RTK';
+import { API, coordinates, positionstackAPIResp, weather } from '../../store/types';
+import { useEffect } from 'react';
 import { Box, Container, Grow } from '@mui/material';
 import TodayCard from './TodayCard';
 import Day from './Day';
-import { API, coordinates, positionstackAPIResp, weather } from '../../store/types';
-import { useEffect } from 'react';
-import { useGetOpenWeatherQuery, useGetStormGlassWeatherQuery } from '../../store/RTK';
 
 const ForecastContainer = ({
   handlerPathBg,
@@ -23,8 +23,8 @@ const ForecastContainer = ({
   });
 
   useEffect(() => {
-    handlerPathBg(data?.weather);
-  }, [data]);
+    handlerPathBg(api === 'openWeather' ? data?.weather : dataStorm?.weather);
+  }, [api, data, dataStorm, handlerPathBg]);
 
   return (
     <Box

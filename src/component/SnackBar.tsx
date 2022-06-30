@@ -1,4 +1,4 @@
-import { useState, forwardRef, useEffect } from 'react';
+import { useState, forwardRef, useEffect, memo } from 'react';
 import { Stack, Snackbar } from '@mui/material';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
@@ -32,4 +32,4 @@ const SnackbarMessage = ({ error }: { error: any }) => {
   );
 };
 
-export default SnackbarMessage;
+export default memo(SnackbarMessage);

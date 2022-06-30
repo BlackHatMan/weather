@@ -1,11 +1,11 @@
 import CalendarContainer from './component/Calendar/CalendarContainer';
 import ForecastContainer from './component/weather/ForecastContainer';
+import { useEffect, useState } from 'react';
+import SnackbarMessage from './component/SnackBar';
 import { Box } from '@mui/material';
+import { useGetCoordCityQuery } from './store/RTK';
 import { getPathBackground } from './utilities/path';
 import { API, coordinates, weather } from './store/types';
-import { useEffect, useState } from 'react';
-import { useGetCoordCityQuery } from './store/RTK';
-import SnackbarMessage from './component/SnackBar';
 
 function App() {
   const [city, setCity] = useState(localStorage.getItem('city') as string);
@@ -29,7 +29,7 @@ function App() {
         setPosition({ latitude: coords.latitude, longitude: coords.longitude });
       });
     }
-  }, []);
+  }, [city]);
 
   const { data, error } = useGetCoordCityQuery(city, { skip: !city });
 
