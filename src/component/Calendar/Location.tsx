@@ -2,7 +2,7 @@ import { styled, TextField, Typography } from '@mui/material';
 import { useGetCoordCityQuery } from '../../store/RTK';
 import SelectAPI from './SelectApi';
 import { handlerCity, handlerAPI } from './CalendarContainer';
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 
 const Location = ({
   handlerCity,
@@ -13,7 +13,7 @@ const Location = ({
   city: string;
   handlerAPI: handlerAPI;
 }) => {
-  const { data } = useGetCoordCityQuery(city, { skip: !!city });
+  const { data } = useGetCoordCityQuery(city);
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const queryCity = e.currentTarget.value;
@@ -21,6 +21,7 @@ const Location = ({
       handlerCity(queryCity);
     }
   };
+
   useEffect(() => {
     if (data?.name) localStorage.setItem('city', data?.name);
   }, [data]);
@@ -46,7 +47,7 @@ const Location = ({
   );
 };
 
-export default Location;
+export default memo(Location);
 
 const StyledTextField = styled(TextField)({
   '& .MuiInput-input': {

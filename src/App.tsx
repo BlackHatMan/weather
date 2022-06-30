@@ -1,6 +1,6 @@
 import CalendarContainer from './component/Calendar/CalendarContainer';
 import ForecastContainer from './component/weather/ForecastContainer';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import SnackbarMessage from './component/SnackBar';
 import { Box } from '@mui/material';
 import { useGetCoordCityQuery } from './store/RTK';
@@ -13,15 +13,17 @@ function App() {
   const [position, setPosition] = useState<coordinates>();
   const [bgPath, setBgPath] = useState<string | undefined>();
 
-  const handlerPathBg = (weather?: weather[]) => {
+  const handlerPathBg = useCallback((weather?: weather[]) => {
     setBgPath(getPathBackground(weather));
-  };
-  const handlerCity = (cityQuery: string) => {
+  }, []);
+
+  const handlerCity = useCallback((cityQuery: string) => {
     setCity(cityQuery);
-  };
-  const handlerAPI = (API: API) => {
+  }, []);
+
+  const handlerAPI = useCallback((API: API) => {
     setApi(API);
-  };
+  }, []);
 
   useEffect(() => {
     if (!city) {

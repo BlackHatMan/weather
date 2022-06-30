@@ -1,4 +1,5 @@
 import { Container } from '@mui/material';
+import { memo } from 'react';
 import { API } from '../../store/types';
 import Clock from './Clock';
 import Location from './Location';
@@ -44,7 +45,7 @@ const CalendarContainer = ({
   );
 };
 
-export default CalendarContainer;
+export default memo(CalendarContainer);
 
 export type handlerCity = (cityQuery: string) => void;
 export type handlerAPI = (api: API) => void;

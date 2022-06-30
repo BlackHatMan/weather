@@ -2,6 +2,7 @@ import { Box, Typography, useMediaQuery } from '@mui/material';
 import WeatherImage from './WeatherImage';
 import { DayOfWeek } from './Day';
 import { weather } from '../../store/types';
+import { memo } from 'react';
 
 const TodayCard = ({ weather }: { weather?: weather }) => {
   const matches = useMediaQuery('(max-width:1200px)');
@@ -16,4 +17,4 @@ const TodayCard = ({ weather }: { weather?: weather }) => {
   );
 };
 
-export default TodayCard;
+export default memo(TodayCard);
