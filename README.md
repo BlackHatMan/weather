@@ -1,2 +1,1 @@
-Weather App
-test project
+Weather App with double API
